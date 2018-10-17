@@ -15,7 +15,7 @@
   <tbody>
 <%= for task <- @tasks do %>
     <tr scope="col">
-      <td><%= task.user_id %></td>
+      <td><%= task.user.name %></td>
       <td><%= task.title %></td>
       <td><%= task.desc %></td>
       <td><%= task.time %></td>
