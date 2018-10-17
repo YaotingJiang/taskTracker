@@ -1,7 +1,6 @@
 <h1>Show User</h1>
 
 <ul>
-
   <li>
     <strong>Name:</strong>
     <%= @user.name %>
@@ -10,6 +9,11 @@
   <li>
     <strong>Email:</strong>
     <%= @user.email %>
+  </li>
+
+  <li>
+    <strong>ID:</strong>
+    <%= @user.id %>
   </li>
 
 </ul>

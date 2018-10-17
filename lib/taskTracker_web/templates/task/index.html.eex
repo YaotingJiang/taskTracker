@@ -3,6 +3,7 @@
 <table class="table">
   <thead class="thead-light">
     <tr>
+      <th>Assigned To</th>
       <th>Title</th>
       <th>Desc</th>
       <th>Time</th>
@@ -14,6 +15,7 @@
   <tbody>
 <%= for task <- @tasks do %>
     <tr scope="col">
+      <td><%= task.user_id %></td>
       <td><%= task.title %></td>
       <td><%= task.desc %></td>
       <td><%= task.time %></td>

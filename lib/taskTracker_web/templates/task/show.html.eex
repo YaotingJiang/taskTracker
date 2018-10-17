@@ -3,6 +3,12 @@
 <ul>
 
   <li>
+    <strong>Assigned To:</strong>
+    <%= @task.user_id %>
+  </li>
+
+
+  <li>
     <strong>Title:</strong>
     <%= @task.title %>
   </li>
