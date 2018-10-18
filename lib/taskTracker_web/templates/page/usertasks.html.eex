@@ -1,0 +1,32 @@
+<h1>Your Tasks</h1>
+
+<%= Enum.map @tasks, fn task -> %>
+<%= if task.user.name == @current_user.name do %>
+
+
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th>Title</th>
+      <th>Desc</th>
+      <th>Time</th>
+      <th>Completed</th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for task <- @tasks do %>
+    <tr scope="col">
+      <td><%= task.title %></td>
+      <td><%= task.desc %></td>
+      <td><%= task.time %></td>
+      <%= if task.completed do %>
+        <td>Completed</td>
+      <% else %>
+        <td>Completed</td>
+      <% end %>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+<% end %>
+<% end %>

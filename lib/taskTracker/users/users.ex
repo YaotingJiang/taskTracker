@@ -19,7 +19,7 @@ defmodule TaskTracker.Users do
   """
   def list_users do
     Repo.all(User)
-    # |> Repo.preload(:user)
+    # |> Repo.preload(:task)
   end
 
   @doc """
@@ -38,11 +38,18 @@ defmodule TaskTracker.Users do
   """
   # def get_user!(id) do
   #   Repo.get!(User, id)
+  #   |> Repo.preload(:task)
   # end
   def get_user!(id), do: Repo.get!(User, id)
 
   # below get_user!
   def get_user(id), do: Repo.get(User, id)
+  # def get_user(id) do
+  #   Repo.get(User, id)
+  #   |> Repo.preload(:task)
+  # end
+
+
 
   def get_user_by_email(email) do
     Repo.get_by(User, email: email)
