@@ -29,12 +29,12 @@ defmodule TaskTrackerWeb.TaskController do
   def show(conn, %{"id" => id}) do
     task = Tasks.get_task!(id)
     # users = Enum.map(Users.list_users(), fn(user) -> user.email end)
-    # user_id = get_session(conn, :user_id)
-    # user_ctasks = Tasks.change_task(%Tasks.Task{
-    #   user_id: user_id
-    # })
-    # render(conn, "show.html", task: task, users: users, user_ctasks: user_ctasks)
-    render(conn, "show.html", task: task)
+     user_id = get_session(conn, :user_id)
+     user_ctasks = Tasks.change_task(%Tasks.Task{
+       user_id: user_id
+     })
+     render(conn, "show.html", task: task, user_ctasks: user_ctasks)
+   # render(conn, "show.html", task: task)
   end
 
   def edit(conn, %{"id" => id}) do

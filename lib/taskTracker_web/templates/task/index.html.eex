@@ -19,7 +19,11 @@
       <td><%= task.title %></td>
       <td><%= task.desc %></td>
       <td><%= task.time %></td>
-      <td><%= task.completed %></td>
+      <%= if task.completed do %>
+        <td>Completed</td>
+      <% else %>
+        <td>Completed</td>
+      <% end %>
 
       <td>
         <%= link "Show", to: Routes.task_path(@conn, :show, task),
