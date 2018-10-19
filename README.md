@@ -18,3 +18,12 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Docs: https://hexdocs.pm/phoenix
   * Mailing list: http://groups.google.com/group/phoenix-talk
   * Source: https://github.com/phoenixframework/phoenix
+
+## task tracker part one 
+
+The homepage asks the user to either login or register an account. 
+After user logged in, user will see a list of tasks, which they could delete,
+show, edit the tasks and assign the tasks to other users and the user 
+himself/herself. 
+
+Go to /users will show a list users that had already registered. 
