@@ -3,10 +3,17 @@ defmodule TaskTrackerWeb.TaskController do
 
   alias TaskTracker.Tasks
   alias TaskTracker.Tasks.Task
+  alias TaskTracker.Managements.Management
+  alias TaskTracker.Timeblocks.Timeblock
 
   def index(conn, _params) do
-    tasks = Tasks.list_tasks()
-    render(conn, "index.html", tasks: tasks)
+    current_user = conn.assigns[:current_user]
+    # tasks = Tasks.list_tasks()
+    manager_ids = TaskTracker.Managements.get_managers_ids()
+    tasks = TaskTracker.Managements.filterout_underlings_tasks(current_user.id)
+    IO.puts("debug manager id")
+    IO.puts inspect(manager_ids)
+    render(conn, "index.html", tasks: tasks, manager_ids: manager_ids)
   end
 
   def new(conn, _params) do
@@ -29,18 +36,23 @@ defmodule TaskTrackerWeb.TaskController do
   def show(conn, %{"id" => id}) do
     task = Tasks.get_task!(id)
     # users = Enum.map(Users.list_users(), fn(user) -> user.email end)
-     user_id = get_session(conn, :user_id)
-     user_ctasks = Tasks.change_task(%Tasks.Task{
-       user_id: user_id
+     # user_id = get_session(conn, :user_id)
+     # user_ctasks = Tasks.change_task(%Tasks.Task{
+     #   user_id: user_id
+     # })
+     changeset = TaskTracker.Timeblocks.change_timeblock(%Timeblock{
+       task_id: task.id
      })
-     render(conn, "show.html", task: task, user_ctasks: user_ctasks)
+     manager = TaskTracker.Managements.get_managers_ids()
+     render(conn, "show.html", task: task, manager: manager, changeset: changeset)
    # render(conn, "show.html", task: task)
   end
 
   def edit(conn, %{"id" => id}) do
     task = Tasks.get_task!(id)
     changeset = Tasks.change_task(task)
-    render(conn, "edit.html", task: task, changeset: changeset)
+    current_user = conn.assigns[:current_user]
+    render(conn, "edit.html", task: task, current_user: current_user, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "task" => task_params}) do

@@ -7,7 +7,8 @@ defmodule TaskTracker.Users do
   alias TaskTracker.Repo
 
   alias TaskTracker.Users.User
-
+  alias TaskTracker.Tasks.Task
+  alias TaskTracker.Managements.Management
   @doc """
   Returns the list of users.
 
@@ -19,7 +20,8 @@ defmodule TaskTracker.Users do
   """
   def list_users do
     Repo.all(User)
-    # |> Repo.preload(:task)
+    # |> Repo.preload(:manager)
+    # |> Repo.preload(:underling)
   end
 
   @doc """
@@ -47,6 +49,10 @@ defmodule TaskTracker.Users do
    def get_user(id) do
      Repo.get(User, id)
      |> Repo.preload(:tasks)
+     |> Repo.preload(:manager_manages)
+     |> Repo.preload(:manager)
+     |> Repo.preload(:underlings_managed)
+     |> Repo.preload(:underling)
    end
 
 
@@ -118,5 +124,35 @@ defmodule TaskTracker.Users do
   """
   def change_user(%User{} = user) do
     User.changeset(user, %{})
+  end
+
+  # given user_id is an underling's id and returns this underling's manager
+  def get_underling_manager(user_id) do
+    # IO.puts("current user id")
+    # IO.inspect(user_id)
+    Repo.all(from u in User,
+      join: m in Management,
+      where: u.id == m.manager_id,
+      where: m.underling_id == ^user_id,
+      select: {u.id, u.name, u.email})
+  end
+
+  # given user_id is a manager's id and returns this manager's underlings
+  def get_managers_underling(user_id) do
+    Repo.all(from u in User,
+      join: m in Management,
+      where: m.underling_id == u.id,
+      where: m.manager_id == ^user_id,
+      select: {u.id, u.name, u.email})
+  end
+
+  def get_unmanaged_users(user_id) do
+    ids = Repo.all(from m in Management,
+      select: m.underling_id)
+    unmanged_users = Repo.all(from u in User,
+      where: not u.id in ^ids,
+      select: {u.id, u.name, u.email})
+    Enum.concat(unmanged_users, get_managers_underling(user_id))
+    |> Enum.uniq()
   end
 end

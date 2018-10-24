@@ -10,6 +10,13 @@ defmodule TaskTrackerWeb.Router do
     plug TaskTrackerWeb.Plugs.FetchSession
   end
 
+  pipeline :ajax do
+    plug :accepts, ["json"]
+    plug :fetch_session
+    plug :fetch_flash
+    plug TaskTrackerWeb.Plugs.FetchSession # FIXME: "FetchUser"
+end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -25,6 +32,14 @@ defmodule TaskTrackerWeb.Router do
     resources "/sessions", SessionController, only: [:create, :delete], singleton: true
 
   end
+
+  scope "/ajax", TaskTrackerWeb do
+    pipe_through :ajax
+    # resources "/ratings", RatingController, except: [:new, :edit]
+    resources "/managements", ManagementController, except: [:new, :edit]
+    resources "/timeblocks", TimeblockController, except: [:new, :edit]
+
+end
 
   # Other scopes may use custom stacks.
   # scope "/api", TaskTrackerWeb do

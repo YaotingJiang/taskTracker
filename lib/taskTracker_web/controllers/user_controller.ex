@@ -5,8 +5,20 @@ defmodule TaskTrackerWeb.UserController do
   alias TaskTracker.Users.User
 
   def index(conn, _params) do
+    current_user = conn.assigns[:current_user]
     users = Users.list_users()
-    render(conn, "index.html", users: users)
+    managements = TaskTracker.Managements.map_users_with_id(current_user.id)
+    manager = TaskTracker.Users.get_underling_manager(current_user.id)
+    underling = TaskTracker.Users.get_managers_underling(current_user.id)
+    unmanaged_users = TaskTracker.Users.get_unmanaged_users(current_user.id)
+    IO.inspect(current_user)
+    IO.puts("debug user underling")
+    IO.puts inspect(underling)
+    IO.puts("debug user manager")
+    IO.puts inspect(manager)
+    render(conn, "index.html", users: users, managements: managements, manager: manager,
+    underling: underling, unmanaged_users: unmanaged_users)
+    # render(conn, "index.html", users: users, managements: managements)
   end
 
   def new(conn, _params) do

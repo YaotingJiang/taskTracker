@@ -1,6 +1,74 @@
-<h1>Listing Users</h1>
+<!-- <h1>Listing Users</h1> -->
+<script>
+  window.management_path = "<%= Routes.management_path(@conn, :index)%>"
+  window.current_user_id = "<%= @current_user.id %>"
+  var manage = document.getElementById("manage")
+</script>
+<div className = "container">
+<h3> Your Manager's info: </h3>
+<table class="table" id="manager_table">
+    <thead class="thead-dark">
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>ID</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= if (Enum.empty?(@manager)) do %>
+      <tr>
+        <td>N/A</td>
+        <td>N/A</td>
+      </tr>
+      <% else %>
+        <%= Enum.map @manager, fn m -> %>
+          <tr>
+            <td><%= elem(m, 1) %></td>
+            <td><%= elem(m, 2) %></td>
+            <td><%= elem(m, 0) %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+</table>
+<br>
 
-<table class="table">
+<h3> Your underlings' info: </h3>
+<table class="table" id="underling_table">
+  <thead class="thead-light">
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>ID</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <%= if (Enum.empty?(@underling)) do %>
+  <tr>
+    <td>N/A</td>
+    <td>N/A</td>
+    <td>N/A</td>
+    <td></td>
+  </tr>
+<% else %>
+  <%= Enum.map @underling, fn u -> %>
+    <tr>
+      <td><%= elem(u, 1) %></td>
+      <td><%= elem(u, 2) %></td>
+      <td><%= elem(u, 0) %></td>
+      <td>
+      </td>
+    </tr>
+   <% end %>
+   <% end %>
+
+  </tbody>
+</table>
+
+<h3>Unmanaged Users List:</h3>
+<table class="table" id="manage">
   <thead class="thead-light">
     <tr>
       <th>Name</th>
@@ -9,25 +77,24 @@
 
       <th></th>
     </tr>
-  </thead>
-  <tbody>
-<%= for user <- @users do %>
-    <tr>
-      <td><%= user.name %></td>
-      <td><%= user.email %></td>
-      <td><%= user.id %></td>
-
-      <td>
-        <%= link "Show", to: Routes.user_path(@conn, :show, user),
-        class: "btn btn-secondary btn-sm" %>
-        <%= link "Edit", to: Routes.user_path(@conn, :edit, user),
-        class: "btn btn-info btn-sm" %>
-        <%= link "Delete", to: Routes.user_path(@conn, :delete, user), method: :delete, data: [confirm: "Are you sure?"],
-        class: "btn btn-danger btn-sm" %>
+    <tbody>
+        <%= Enum.map @unmanaged_users, fn u -> %>
+        <tr>
+          <td><%= elem(u, 1) %></td>
+          <td><%= elem(u, 2) %></td>
+          <td><%= elem(u, 0) %></td>
+          <td>
+          <button class="btn btn-primary" id="manage-button"
+            data-user-id="<%=elem(u, 0)%>"
+            data-manage="<%= @managements[elem(u, 0)]%>">
+          manage this user
+        </button>
       </td>
-    </tr>
-<% end %>
-  </tbody>
+      </tr>
+      <% end %>
+    </tbody>
+  </thead>
 </table>
+</div>
 
-<span><%= link "New User", to: Routes.user_path(@conn, :new) %></span>
+<!-- <span><%= link "New User", to: Routes.user_path(@conn, :new) %></span> -->
