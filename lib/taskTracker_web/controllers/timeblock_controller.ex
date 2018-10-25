@@ -12,6 +12,8 @@ defmodule TaskTrackerWeb.TimeblockController do
   end
 
   def create(conn, %{"timeblock" => timeblock_params}) do
+    IO.inspect(timeblock_params)
+    
     with {:ok, %Timeblock{} = timeblock} <- Timeblocks.create_timeblock(timeblock_params) do
       conn
       |> put_status(:created)
@@ -22,6 +24,7 @@ defmodule TaskTrackerWeb.TimeblockController do
 
   def show(conn, %{"id" => id}) do
     timeblock = Timeblocks.get_timeblock!(id)
+
     render(conn, "show.json", timeblock: timeblock)
   end
 

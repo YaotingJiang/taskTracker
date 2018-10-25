@@ -19,14 +19,25 @@
   </li>
 
   <li>
-    <strong>Time:</strong>
-    <%= @task.time %>
-  </li>
-
-  <li>
     <strong>Completed:</strong>
     <%= @task.completed %>
   </li>
+
+  <br>
+  <br>
+  <p id="working_on">This task is not started</p>
+
+  <div id="show-time">
+    <%= Enum.map @task.timeblocks, fn tb -> %>
+        <p>Start on: <%= tb.start %></p>
+        <br>
+        <p>End on: <%= tb.end %></p>
+        <br>
+        <span><%= link "Delete", to: Routes.timeblock_path(@conn, :delete, tb) %></span>
+    <% end %>
+ </div>
+ <br>
+ <br>
 
 </ul>
 

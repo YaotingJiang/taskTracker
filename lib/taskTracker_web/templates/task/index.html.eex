@@ -17,7 +17,7 @@
       <td><%= task.user.name %></td>
       <td><%= task.title %></td>
       <td><%= task.desc %></td>
-      
+
       <%= if task.completed do %>
         <td>Completed</td>
       <% else %>
@@ -50,10 +50,6 @@
    <% end %>
   </tbody>
 </table>
-
-<div id="show-time">
-
-</div>
 
 <!-- Check if current user is manager -->
 <%= if @current_user.id in @manager_ids do %>

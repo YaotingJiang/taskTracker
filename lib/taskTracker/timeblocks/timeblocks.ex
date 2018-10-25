@@ -7,6 +7,7 @@ defmodule TaskTracker.Timeblocks do
   alias TaskTracker.Repo
 
   alias TaskTracker.Timeblocks.Timeblock
+  alias TaskTracker.Tasks.Task
 
   @doc """
   Returns the list of timeblocks.
@@ -20,6 +21,7 @@ defmodule TaskTracker.Timeblocks do
   def list_timeblocks do
     Repo.all(Timeblock)
     |> Repo.preload(:task)
+    
   end
 
   @doc """
@@ -36,7 +38,12 @@ defmodule TaskTracker.Timeblocks do
       ** (Ecto.NoResultsError)
 
   """
-  def get_timeblock!(id), do: Repo.get!(Timeblock, id)
+  # def get_timeblock!(id), do: Repo.get!(Timeblock, id)
+
+  def get_timeblock!(id) do
+    Repo.get!(Timeblock, id)
+    |> Repo.preload(:task)
+  end
 
   @doc """
   Creates a timeblock.
@@ -51,6 +58,8 @@ defmodule TaskTracker.Timeblocks do
 
   """
   def create_timeblock(attrs \\ %{}) do
+    # attrs = Timeblock.create_time_block(attrs)
+    # IO.inspect(attrs)
     %Timeblock{}
     |> Timeblock.changeset(attrs)
     |> Repo.insert()
@@ -101,5 +110,13 @@ defmodule TaskTracker.Timeblocks do
   """
   def change_timeblock(%Timeblock{} = timeblock) do
     Timeblock.changeset(timeblock, %{})
+  end
+
+  def show_timeblock(task_id) do
+    Repo.all(from time in Timeblock,
+      join: t in Task,
+      where: time.task_id == t.id,
+      where: time.task_id == ^ task_id,
+      select: {time.start, time.end})
   end
 end

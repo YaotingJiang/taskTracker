@@ -40,13 +40,16 @@ defmodule TaskTrackerWeb.TaskController do
      # user_ctasks = Tasks.change_task(%Tasks.Task{
      #   user_id: user_id
      # })
-     changeset = TaskTracker.Timeblocks.change_timeblock(%Timeblock{
-       task_id: task.id
-     })
-     IO.puts("debug changeset")
-     IO.inspect(changeset)
+     # changeset = TaskTracker.Timeblocks.change_timeblock(%Timeblock{
+     #   task_id: task.id
+     # })
+     # IO.puts("debug changeset")
+     # IO.inspect(changeset)
+     timeblocks = TaskTracker.Timeblocks.show_timeblock(id)
+     IO.puts("DEBUG HERE TIME")
+     IO.inspect(timeblocks)
      manager = TaskTracker.Managements.get_managers_ids()
-     render(conn, "show.html", task: task, manager: manager, changeset: changeset)
+     render(conn, "show.html", task: task, manager: manager, timeblocks: timeblocks)
    # render(conn, "show.html", task: task)
   end
 
@@ -59,7 +62,6 @@ defmodule TaskTrackerWeb.TaskController do
 
   def update(conn, %{"id" => id, "task" => task_params}) do
     task = Tasks.get_task!(id)
-
     case Tasks.update_task(task, task_params) do
       {:ok, task} ->
         conn

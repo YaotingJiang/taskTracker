@@ -19,6 +19,7 @@
       <tr>
         <td>N/A</td>
         <td>N/A</td>
+        <td>N/A</td>
       </tr>
       <% else %>
         <%= Enum.map @manager, fn m -> %>

@@ -20,7 +20,7 @@ defmodule TaskTracker.Tasks do
   def list_tasks do
     Repo.all(Task)
     |> Repo.preload(:user)
-    # |> Repo.preload(:timeblocks)
+    |> Repo.preload(:timeblocks)
     # Repo.all from t in Task, preload: [:user]
   end
 
@@ -43,7 +43,6 @@ defmodule TaskTracker.Tasks do
     Repo.get!(Task, id)
     |> Repo.preload(:user)
     |> Repo.preload(:timeblocks)
-    # Repo.one! from t in Task, where: t.id == ^id, preload: [:user]
   end
 
   @doc """
@@ -62,6 +61,7 @@ defmodule TaskTracker.Tasks do
     %Task{}
     |> Task.changeset(attrs)
     |> Repo.insert()
+    |> Repo.preload(:timeblocks)
   end
 
   @doc """
@@ -80,6 +80,7 @@ defmodule TaskTracker.Tasks do
     task
     |> Task.changeset(attrs)
     |> Repo.update()
+    # |> Repo.preload(:timeblocks)
   end
 
   @doc """
@@ -110,25 +111,4 @@ defmodule TaskTracker.Tasks do
   def change_task(%Task{} = task) do
     Task.changeset(task, %{})
   end
-
-  # def filterout_underlings_tasks(user_id) do
-  #   Repo.all(from t in Task,
-  #     join: m in Management,
-  #     where: t.user_id == m.underling_id,
-  #     where: m.manager_id == ^user_id)
-  #   |> Repo.uniq()
-  # end
-  #
-  # def get_managers_ids do
-  #   Repo.all(from m in Management,
-  #   select: m.manager_id)
-  # end
-  #
-  #
-  # def map_users_with_id(user_id) do
-  #   Repo.all(from m in Management,
-  #   where: m.manager_id == ^user_id)
-  #   |> Enum.map(&({&1.underling_id, &1.id}))
-  #   |> Enum.into(%{})
-  # end
 end

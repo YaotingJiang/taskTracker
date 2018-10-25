@@ -107,7 +107,7 @@ function init_manage() {
       contentType: "application/json; charset=UTF-8",
       data: "",
       success: (resp) => {
-        // show the time heresssss
+
         let display = _.map(resp.data, get_time())
         $('#show-time').html(display)
       },
@@ -117,8 +117,7 @@ function init_manage() {
   function get_time(timeblock) {
     let start = new Date(timeblock.start)
     let end = new Date(timeblock.end)
-    // do something here
-    return '<div><p>Your task starts on start</p></div>';
+    return '<div><p>Start on: <%= start %></p><br><p> End on: <%= end %></p></div>';
   }
 
 
@@ -126,27 +125,35 @@ function init_manage() {
   $('#start-button').click((ev) => {
     let current_time = new Date($.now())
     console.log(current_time)
+    $('#start-button').addClass("disabled")
+    $('#working_on').text('You are currently working on this task')
+    console.log($('#working_on').text('You are currently working on this task'))
     $('#stop-button').removeClass("disabled")
     $('#stop-button').attr('data-start', current_time)
-    $('#start-button').addClass("disabled")
+  })
+
+  $('delete').click((ev) => {
+
   })
 
   $('#stop-button').click((ev) => {
-    // let current_time = Date.now()
+    $('#working_on').text('You have completed this task')
     let current_time = new Date($.now())
     $('#stop-button').addClass("disabled")
-    let start_time = $('#stop-button').attr('data-start')
-    let task_id = $('#stop-button').attr('data-task-id')
+    let start_time = new Date($('#stop-button').attr('data-start'))
+    console.log(current_time)
 
+    let task_id = $('#stop-button').attr('data-task-id')
+    console.log(task_id)
     let text = JSON.stringify({
       timeblock: {
         start: start_time,
         end: current_time,
-        task_id: task_id,
+        task_id: parseInt(task_id),
       },
     });
 
-    $.ajax('ajax/timeblock', {
+    $.ajax('ajax/timeblocks', {
       method: "post",
       dataType: "json",
       contentType: "application/json; charset=UTF-8",
