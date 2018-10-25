@@ -43,6 +43,8 @@ defmodule TaskTrackerWeb.TaskController do
      changeset = TaskTracker.Timeblocks.change_timeblock(%Timeblock{
        task_id: task.id
      })
+     IO.puts("debug changeset")
+     IO.inspect(changeset)
      manager = TaskTracker.Managements.get_managers_ids()
      render(conn, "show.html", task: task, manager: manager, changeset: changeset)
    # render(conn, "show.html", task: task)

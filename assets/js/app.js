@@ -21,10 +21,11 @@ import "bootstrap";
 // Local files can be imported directly using relative paths, for example:
 // import socket from "./socket"
 
+// implemented professor Tuck's lecture notes from both spring 2018 and fall 2018.
 $(function () {
 
   function update_buttons() {
-    $('#manage-button').each( (_, bb) => {
+    $('.manage-button').each( (_, bb) => {
       let user_id = $(bb).data('user-id');
       let manage = $(bb).data('manage');
       if (manage != "") {
@@ -37,7 +38,7 @@ $(function () {
  }
 
   function set_button(user_id, value) {
-    $('#manage-button').each( (_, bb) => {
+    $('.manage-button').each( (_, bb) => {
       if (user_id == $(bb).data('user-id')) {
         $(bb).data('manage', value);
       }
@@ -88,11 +89,11 @@ function manage_click(ev) {
 }
 
 function init_manage() {
-  if (!$('#manage-button')) {
+  if (!$('.manage-button')) {
     return;
   }
 
-  $("#manage-button").click(manage_click);
+  $(".manage-button").click(manage_click);
 
   update_buttons();
 }

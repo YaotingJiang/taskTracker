@@ -6,7 +6,6 @@
       <th>Assigned To</th>
       <th>Title</th>
       <th>Desc</th>
-      <!-- <th>Time</th> -->
       <th>Completed</th>
 
       <th></th>
@@ -18,11 +17,11 @@
       <td><%= task.user.name %></td>
       <td><%= task.title %></td>
       <td><%= task.desc %></td>
-      <!-- <td><%= task.time %></td> -->
+      
       <%= if task.completed do %>
         <td>Completed</td>
       <% else %>
-        <td>Completed</td>
+        <td>Not Completed</td>
       <% end %>
 
       <td>

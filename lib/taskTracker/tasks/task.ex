@@ -11,7 +11,7 @@ defmodule TaskTracker.Tasks.Task do
     field :title, :string
     # field :user_id, :id
     belongs_to :user, TaskTracker.Users.User
-    has_many :timeblocks, TaskTracker.Timblocks.Timeblock
+    has_many :timeblocks, TaskTracker.Timeblocks.Timeblock
 
     timestamps()
   end
