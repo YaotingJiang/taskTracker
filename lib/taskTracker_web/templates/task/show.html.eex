@@ -25,12 +25,11 @@
 
   <br>
   <br>
-  <p>Your TimeBlock: </p>
-
+  <strong>Following is the timeBlock for this task: </strong>
+  <br>
   <div id="show-time">
     <%= Enum.map @task.timeblocks, fn tb -> %>
         <p>Start on: <%= tb.start %></p>
-        <br>
         <p>End on: <%= tb.end %></p>
         <br>
         <button class="delete-button btn btn-danger"

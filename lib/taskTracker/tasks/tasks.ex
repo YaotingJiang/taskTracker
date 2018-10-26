@@ -61,7 +61,7 @@ defmodule TaskTracker.Tasks do
     %Task{}
     |> Task.changeset(attrs)
     |> Repo.insert()
-    |> Repo.preload(:timeblocks)
+    # |> Repo.preload(:timeblocks)
   end
 
   @doc """
@@ -97,7 +97,7 @@ defmodule TaskTracker.Tasks do
   """
   def delete_task(%Task{} = task) do
     Repo.delete(task)
-  
+
   end
 
   @doc """

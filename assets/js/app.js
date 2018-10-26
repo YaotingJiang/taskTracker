@@ -119,7 +119,7 @@ function init_manage() {
   function get_time(timeblock) {
     let start = new Date(timeblock.start)
     let end = new Date(timeblock.end)
-    return '<div><p>Start on: <%= start %></p><br><p> End on: <%= end %></p></div>';
+
   }
 
 
@@ -171,7 +171,7 @@ function init_manage() {
       contentType: "application/json; charset=UTF-8",
       success: (resp) => {
         update(task_id);
-        location.reload();
+        // location.reload();
       },
     });
   })
