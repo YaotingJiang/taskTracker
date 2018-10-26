@@ -11,6 +11,7 @@ import css from "../css/app.scss"
 //
 import "phoenix_html"
 import jQuery from 'jquery';
+window.jQuery = window.$ = jQuery;
 import _ from 'lodash';
 window.jQuery = window.$ = jQuery; // Bootstrap requires a global "$" object.
 import "bootstrap";
@@ -80,11 +81,14 @@ function manage_click(ev) {
 
   console.log(user_id)
 
+
   if (management_id != "") {
     unmanage(user_id, management_id);
+    location.reload();
   }
   else {
     manage(user_id);
+    location.reload()
   }
 }
 
@@ -92,9 +96,7 @@ function init_manage() {
   if (!$('.manage-button')) {
     return;
   }
-
   $(".manage-button").click(manage_click);
-
   update_buttons();
 }
 
@@ -126,23 +128,16 @@ function init_manage() {
     let current_time = new Date($.now())
     console.log(current_time)
     $('#start-button').addClass("disabled")
-    $('#working_on').text('You are currently working on this task')
-    console.log($('#working_on').text('You are currently working on this task'))
     $('#stop-button').removeClass("disabled")
     $('#stop-button').attr('data-start', current_time)
   })
 
-  $('delete').click((ev) => {
-
-  })
 
   $('#stop-button').click((ev) => {
-    $('#working_on').text('You have completed this task')
     let current_time = new Date($.now())
     $('#stop-button').addClass("disabled")
     let start_time = new Date($('#stop-button').attr('data-start'))
     console.log(current_time)
-
     let task_id = $('#stop-button').attr('data-task-id')
     console.log(task_id)
     let text = JSON.stringify({
@@ -152,6 +147,7 @@ function init_manage() {
         task_id: parseInt(task_id),
       },
     });
+
 
     $.ajax('ajax/timeblocks', {
       method: "post",
@@ -163,6 +159,22 @@ function init_manage() {
       },
     });
   });
+
+  $('.delete-button').click((ev) => {
+    console.log("delete clicked")
+    let this_timeblock = $('.delete-button').attr('timeblock')
+    console.log(this_timeblock)
+
+    $.ajax('/ajax/timeblocks'+ "/" + this_timeblock, {
+      method: "delete",
+      dataType: "json",
+      contentType: "application/json; charset=UTF-8",
+      success: (resp) => {
+        update(task_id);
+        location.reload();
+      },
+    });
+  })
 
   $(init_manage);
 })

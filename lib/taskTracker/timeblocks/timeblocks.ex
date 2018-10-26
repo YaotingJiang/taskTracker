@@ -21,7 +21,7 @@ defmodule TaskTracker.Timeblocks do
   def list_timeblocks do
     Repo.all(Timeblock)
     |> Repo.preload(:task)
-    
+
   end
 
   @doc """

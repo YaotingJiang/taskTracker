@@ -20,7 +20,7 @@ defmodule TaskTracker.Timeblocks.Timeblock do
   end
 
   def create_time_block(attrs) do
-
+    
     endtime = convert(attrs["end"])
     starttime = convert(attrs["start"])
     task_id = attrs["task_id"]
@@ -33,7 +33,6 @@ defmodule TaskTracker.Timeblocks.Timeblock do
   end
 
   defp convert(time) do
-    # time = String.split(time, ["-", " ", ":", ".", "T"])
     {:ok, time} = NaiveDateTime.from_iso8601(time)
    time
   end

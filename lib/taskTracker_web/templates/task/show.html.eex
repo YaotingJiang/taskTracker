@@ -25,7 +25,7 @@
 
   <br>
   <br>
-  <p id="working_on">This task is not started</p>
+  <p>Your TimeBlock: </p>
 
   <div id="show-time">
     <%= Enum.map @task.timeblocks, fn tb -> %>
@@ -33,7 +33,9 @@
         <br>
         <p>End on: <%= tb.end %></p>
         <br>
-        <span><%= link "Delete", to: Routes.timeblock_path(@conn, :delete, tb) %></span>
+        <button class="delete-button btn btn-danger"
+          data-type="Delete"
+          data-timeblock="<%= tb.id%>">Delete</button>
     <% end %>
  </div>
  <br>

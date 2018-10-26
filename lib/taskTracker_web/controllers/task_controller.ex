@@ -48,6 +48,8 @@ defmodule TaskTrackerWeb.TaskController do
      timeblocks = TaskTracker.Timeblocks.show_timeblock(id)
      IO.puts("DEBUG HERE TIME")
      IO.inspect(timeblocks)
+     # first = Enum.map(timeblocks, fn x -> x.id end)
+     # IO.inspect(first)
      manager = TaskTracker.Managements.get_managers_ids()
      render(conn, "show.html", task: task, manager: manager, timeblocks: timeblocks)
    # render(conn, "show.html", task: task)

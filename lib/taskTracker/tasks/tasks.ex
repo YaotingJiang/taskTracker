@@ -97,6 +97,7 @@ defmodule TaskTracker.Tasks do
   """
   def delete_task(%Task{} = task) do
     Repo.delete(task)
+  
   end
 
   @doc """

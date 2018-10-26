@@ -13,7 +13,7 @@ defmodule TaskTrackerWeb.TimeblockController do
 
   def create(conn, %{"timeblock" => timeblock_params}) do
     IO.inspect(timeblock_params)
-    
+
     with {:ok, %Timeblock{} = timeblock} <- Timeblocks.create_timeblock(timeblock_params) do
       conn
       |> put_status(:created)
